@@ -21,7 +21,10 @@ mini a b                  --o menor entre
 
 tresIguais :: Int -> Int -> Int -> Bool
 tresIguais x y z = (x==y) && (y==z) && (z==x) 
-----------------------------------------------
+---------------------------------------------------
+--
+-- Lista 1 Extra 
+--
 palindromo :: String -> Bool
 palindromo s = s == reverse s
 
