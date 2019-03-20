@@ -21,8 +21,7 @@ tabela n = inicio ++ geraVendas n ++ "\nTotal: " ++ show(vendaTotal n) ++ "\n"
 
 ----------------------------------------------------------------------------------
 -- Lista 2 
-
--- Lista 2
+--
 maior :: Int -> Int -> Int
 maior x y
    | (x > y) = x
