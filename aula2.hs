@@ -5,20 +5,19 @@ vendas 2 = 20
 vendas 3 = 0
 vendas _ = 55
 
-vendaTotal :: Int -> Int
-vendaTotal 0 = vendas 0 
-vendaTotal n = vendas n + vendaTotal(n-1)
-
 inicio :: String
-inicio = "Semana   Vendas \n"  
+inicio =  "Semana    Vendas\n"
 
 geraVendas :: Int -> String
-geraVendas n
-   | (n==0) = "Semana " ++ show(n) ++" "++ show(vendas 0)
-   | otherwise = "Semana " ++ show(n+1) ++" "++ show(geraVendas(n-1))
+geraVendas 0 = "\nSemana " ++ show 0 ++ "    " ++ show(vendas 0)
+geraVendas n =  geraVendas(n-1) ++  "\nSemana " ++ show n ++ "    " ++ show(vendas n) 
+
+vendaTotal :: Int -> Int
+vendaTotal 0 = (vendas 0)
+vendaTotal n =  (vendas n + vendaTotal(n-1)) 
 
 tabela :: Int -> String
-tabela n = inicio ++ geraVendas n ++ "\nTotal:  " ++ show(vendaTotal n)
+tabela n = inicio ++ geraVendas n ++ "\nTotal: " ++ show(vendaTotal n) ++ "\n"
 
 ----------------------------------------------------------------------------------
 -- Lista 2 
