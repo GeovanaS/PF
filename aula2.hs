@@ -22,41 +22,76 @@ tabela n = inicio ++ geraVendas n ++ "\nTotal: " ++ show(vendaTotal n) ++ "\n"
 ----------------------------------------------------------------------------------
 -- Lista 2 
 
--- Ex1
+-- Lista 2
 maior :: Int -> Int -> Int
-maior x y 
-  | (x > y) = x
-  | otherwise = y
+maior x y
+   | (x > y) = x
+   | otherwise = y
 
--- Ex2
 maiorVenda :: Int -> Int
-maiorVenda n
-   | (n == 0) = vendas 0
-   | otherwise = maior(vendas n) (maiorVenda(n-1))
-
--- Ex3
-maxVenda :: Int -> Int
-maxVenda n
+maiorVenda n 
   | (n==0) = vendas 0
-  | (maiorVenda n == vendas n) = n
-  | otherwise = maxVenda(n-1)
+  | otherwise = maior(vendas n)  (maiorVenda(n-1))
 
--- Ex4
+maxVenda :: Int -> Int
+maxVenda n  
+  |  (n == 0) = 0 
+  |  (maiorVenda n == vendas n) = n
+  |  otherwise = maxVenda(n-1) 
+
 zeroVendas :: Int -> Int
 zeroVendas n
    | (vendas n == 0) = n
    | otherwise = -1
 
--- Ex5
-vendasIgual :: Int -> Int -> Int
-vendasIgual s n
+vendasIguais :: Int -> Int -> Int
+vendasIguais s n 
    | (vendas n == s) = n
-   | otherwise = vendasIgual s(n-1) 
-  
- -- Ex6 
- zeroVendas2 :: Int -> Int
- zeroVendas2 n
-   | (vendasIgual 0 (n)) = n
-   | otherwise = -1
+   | otherwise = vendasIguais s(n-1) 
 
+zeroVendas2 :: Int -> Int -> Int
+zeroVendas2 n m
+  | (vendas n == 0) && (vendas m == 0) = 0
+  | (vendasIguais n m == vendas n)  = -1
+  | otherwise = -1
 
+maiorVenda2 :: Int -> Int -> Int
+maiorVenda2 n m
+  | (n == m) = vendas n
+  | otherwise = maior(vendas n) (maiorVenda2 n (m-1))
+
+maxVenda2 :: Int -> Int -> Int
+maxVenda2 n m
+ | (n == m) = n
+ | (maiorVenda2 n m == vendas n) = n
+ | otherwise = maxVenda2 m(n-1)
+
+zeroVendas3 :: Int -> Int -> Int
+zeroVendas3 n m
+ | (vendas n == 0) = n
+ | (m == n) = -1
+ | otherwise = zeroVendas3 m (n-1)
+
+vendasIguais2 :: Int -> Int -> Int -> Int
+vendasIguais2 s n m
+ | (vendas n == s) = n
+ | (m == n) = -1
+ | otherwise = vendasIguais2 s m(n-1)
+
+fatorial :: Int -> Int
+fatorial n
+  | (n == 0) = 1
+  | (n == 1) = 1
+  | otherwise = n * fatorial(n - 1)
+
+produto :: Int -> Int -> Int
+produto m n
+  | (n <= 0) = 1
+  | (m == n) = n 
+  | otherwise = n * produto m (n-1)
+
+fib :: Int -> Int
+fib n 
+ | (n == 0) = n
+ | (n == 1) = n
+ | otherwise = fib(n-1)+fib(n-2)
