@@ -2,7 +2,7 @@ adicionaTupla :: (Int,Int,Int) -> (Int)
 adicionaTupla (x,y,z) = (x+y+z)
 
 shift :: ((Int,Int),Int) -> (Int,(Int,Int))
-shift ((x,y),z) = (z,(x,y))
+shift ((x,y),z) = (x,(y,z))
 
 maior :: Int -> Int -> Int -> Int
 maior x y z 
@@ -26,19 +26,19 @@ vendas 2 = 20
 vendas 3 = 0
 vendas _ = 55
 
+ordenaTupla :: (Int,Int,Int) -> (Int,Int,Int)
+ordenaTupla (x,y,z) = (menor x y z, adicionaTupla(x,y,z) - menor x y z - maior x y z, maior x y z)
+
 zeroVenda :: Int -> (Int,Bool)
 zeroVenda n 
    | (vendas n == 0) = (0,True)
    | otherwise = (-1,False)
 
-livro :: (String,String,Int) -> (String,String,Int)
-livro (t,a,n) = (t,a,n)
-titulo :: (String) -> (String)
-titulo (t) = t
-autor :: (String) -> (String)
-autor (a) = a
-numeroIsbn :: (Int) -> (Int) 
-numeroIsbn (n) = n
 
-
-
+type Livro = (String,String,Int) 
+titulo :: (String,String,Int) -> (String)
+titulo (t,a,n) = t
+autor :: Livro -> String
+autor (t,a,n) = a
+numeroIsbn :: Livro -> Int 
+numeroIsbn (t,a,n) = n
