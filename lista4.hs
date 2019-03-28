@@ -19,14 +19,15 @@ produtoLista [] = 1
 produtoLista [a] = a
 produtoLista (a:x) = a * produtoLista x
 
--- andLista :: [Bool] -> [Bool]
--- andLista [] = [False]
--- andLista (a:x) = a && (andLista x)
+andLista :: [Bool] -> Bool
+andLista [] = False
+andLista [a] = a
+andLista (a:x) = a && (andLista x)
 
 concatLista :: [[Int]] -> [Int]
-concatLista [[]] = []
-concatLista (a:x) = a ++ (concatLista x)
+concatLista [] = []
+concatLista (a:x) = a ++ concatLista x
 
 inverteLista :: [Int] -> [Int]
 inverteLista [] = []
-inverteLista (a:x) = x : inverteLista a
+inverteLista(a:x) = inverteLista x ++ [a]
