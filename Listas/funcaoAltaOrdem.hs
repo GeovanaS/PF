@@ -41,7 +41,7 @@ map1 f (a:x) = f a : map1 f x
 --Ex1
 total :: (Int -> Int) -> Int -> Int
 total f 0 = 0
-total f n = f n + total f n
+total f n = (f n) + total f (n-1)
 
 --Ex2
 foldInt :: (Int -> Int -> Int) -> [Int] -> Int
@@ -61,9 +61,10 @@ sub x y = x - y
 
 -- Ex4
 filterString :: (Char -> Bool) -> [Char] -> [Char]
+filterString f [] = []
 filterString f (x:xs)
-        | (f x)= x:(filterString f xs) 
-        | otherwise = (filterString f xs)
+        | (f x)= x:(filterString f(xs)) 
+        | otherwise = (filterString f(xs))
 
 naoEspaco :: Char -> Bool
 naoEspaco x = x /= ' '
@@ -74,21 +75,34 @@ naoEspaco x = x /= ' '
 naoNovaLinha :: Char -> Bool
 naoNovaLinha x = x /= '\n'
 
-naoVogal :: Char -> Bool
-naoVogal x = (x/= 'a' && x/='e' && x/='i' && x/='o' && x/='u')
+naoVogais :: Char -> Bool
+naoVogais x = x /= 'a' && x /= 'A' && x /= 'e' && x /= 'E' && x /= 'i' && x /= 'I' && x/='o' && x/='O' && x /= 'u' && x /= 'U'
 
 -- Ex6
---somaQuad :: [Int] -> Int
---somaQuad (x:xs) = (2*foldInt soma xs x)
---somaQuad (x:xs) = x*x
- 
+somaQuadrado :: [Int] -> Int
+somaQuadrado [] = 0
+somaQuadrado l = foldInt soma (mapInt quadrado l)
+   where
+      quadrado :: Int -> Int
+      quadrado x = x * x
+
 -- Ex7
 maiorZero :: (Int->Int) -> Int -> Bool
-maiorZero f n 
-        | (f n > 0) = True
-        | (f n < 0) = False
-        | otherwise = maiorZero f (n-1) 
+maiorZero f 0 = (f 0) > 0
+maiorZero f n = (f n) > 0 && maiorZero f (n-1)
 
+-- Ex8
+duasVezes :: (Int->Int) -> Int -> Int
+duasVezes f n = f(f n)
 
---duasVezes :: (Int->Int) -> Int -> Int
+-- > duasVezes (time2) 2
+-- > 8
 
+-- Ex9
+inter :: Int -> (Int -> Int) -> Int -> Int
+inter 0 f x = 0
+inter 1 f x = f x
+inter n f x = f(inter(n-1) f x)
+
+-- > inter 3 (time2) 2
+-- > 16 
