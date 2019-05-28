@@ -13,15 +13,14 @@ leNomeESobrenome = do
 --	 resp <- leNomeESobrenome
 --	 putStrLn resp
 
-ins :: String -> [String] -> [String]
-ins n [] = [n]
-ins n (x:xS)
-    | n >= x = x: ins n xS
-    | otherwise = [n,x] ++ xS
+insert :: Ord a => a -> [a] -> [a]
+insert x []     = [x]
+insert x (y:ys) | x <= y    = x : y : ys
+                | otherwise = y : insert x ys
 
-iSort :: [String] -> [String]
-iSort [] = []
-iSort(x:xS) = ins x (iSort xS)
+iSort :: Ord a => [a] -> [a]
+iSort []     = []
+iSort (x:xs) = insert x (isort xs)
 
 leNomes :: IO [String]
 leNomes = do
@@ -43,4 +42,3 @@ main = do
 -- (iSort nomes) : ordena nomes
 -- (map(++"\n") : adiciona "\n" ao final de cada string
 -- foldr(++)[] : pega todas as strings e junta em uma só
-
