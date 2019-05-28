@@ -2,7 +2,7 @@ import System.Console.ANSI
 import Data.Char
 import System.IO
 
-
+-- Move asterisco atraves dos caracteres: R,D,F,C
 
 
 main                    :: IO ()
