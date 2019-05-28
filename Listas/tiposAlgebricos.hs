@@ -35,9 +35,19 @@ redondo :: Forma -> Bool
 redondo (Circulo x) = True
 redondo (Retangulo x y) = False
 
---> redondo (Circulo 20.5)
-
+-- > redondo (Circulo 20.5)
 
 area :: Forma -> Float
 area (Circulo r) = pi * r * r
 area (Retangulo b a) = b*a
+
+data Arvore = Folha | Nodo Int Arvore Arvore
+
+data ArvoreP a = Folha| Nodo A (Arvore a) (Arvore a)
+
+minhaArvore :: Arvore
+minhaArvore = Nodo 10 (Nodo 14 (Nodo 1 Folha Folha)Folha)
+
+somaArvore :: Arvore -> Int
+somaArvore Folha = 0
+somaArvore (Nodo n a1 a2) = n + somaArvore a1 + somaArvore a2
