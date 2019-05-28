@@ -13,14 +13,15 @@ leNomeESobrenome = do
 --	 resp <- leNomeESobrenome
 --	 putStrLn resp
 
-insert :: Ord a => a -> [a] -> [a]
-insert x []     = [x]
-insert x (y:ys) | x <= y    = x : y : ys
-                | otherwise = y : insert x ys
+ins :: Ord a => a -> [a] -> [a]
+ins x [] = [x]
+ins x (y:ys) 
+	| x <= y = x : y : ys
+    | otherwise = y : ins x ys
 
 iSort :: Ord a => [a] -> [a]
 iSort []     = []
-iSort (x:xs) = insert x (isort xs)
+iSort (x:xs) = ins x (iSort xs)
 
 leNomes :: IO [String]
 leNomes = do
