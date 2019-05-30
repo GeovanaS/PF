@@ -96,8 +96,28 @@ buscaArvore (Nodo n a1 a2) x
            | otherwise = False 
 
 -- Ex5
---quantArvore :: Arvore Int -> Int -> Int
---quantArvore (Folha n) x = if(n==x) then 1 else 0 
---quantArvore (Nodo n a1 a2) x 
-  --          | (n==x) = 1 + quantArvore a1 + quantArvore a2
-    --        | otherwise = 0
+quantArvore :: Arvore Int -> Int -> Int
+quantArvore (Folha n) x = if(x==n) then 1 else 0 
+quantArvore (Nodo n a1 a2) x 
+            | (x == n) = 1 + (quantArvore a1 x) + (quantArvore a2 x)
+            | otherwise = (quantArvore a1 x) + (quantArvore a2 x)
+
+-- Ex6
+refleteArvore :: Arvore Int -> Arvore Int
+refleteArvore (Folha n) = (Folha n)
+refleteArvore (Nodo n a1 a2) = Nodo n  (refleteArvore a2)  (refleteArvore a1)
+
+-- Ex7
+altArvore :: Arvore Int -> Int
+altArvore (Folha n) = 0
+altArvore (Nodo n a1 a2) = 1 + max(altArvore a1) (altArvore a2)
+
+-- Ex8
+listArvore :: Arvore Int -> [Int]
+listArvore (Folha n) = [n]
+listArvore (Nodo n a1 a2) = [n] ++ (listArvore a1) ++ (listArvore a2)
+
+-- Ex9
+-- mapTree :: (a -> b) -> Arvore a -> Arvore b
+-- mapTree f (Folha n) = (Folha n)
+-- mapTree f (Nodo n a1 a2) = Nodo (f n) (mapTree f a1) (mapTree f a2)
