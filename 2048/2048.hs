@@ -46,12 +46,12 @@ verificaVitoria tab = [] /= filter (==2048) (concat tab)
 
 -- Imprime tabuleiro
 imprimeTab :: Tab -> IO()
-imprimeTab tab = do putStr $ "\ESC[2J" ++ "\ESC[2J"
+imprimeTab tab = do putStr $ "\ESC[2J"
                     mapM_ (putStrLn . imprimeLinha) tab
 
 imprimeLinha :: [Int] -> String
 imprimeLinha [] = ""
-imprimeLinha (x:xs) = show x ++ " " ++ imprimeLinha xs
+imprimeLinha (x:xs) = show x ++ "  " ++ imprimeLinha xs
 
 novoTab :: Tab -> IO Tab
 novoTab tab = do e <- entrada    
@@ -63,18 +63,10 @@ jogo :: Tab -> IO ()
 jogo tab =
     case existeMovimento tab of
             True  -> do imprimeTab tab
-                        if verificaVitoria tab
-                        then putStrLn "Você venceu!"
-                        else do
-                           novoT <- novoTab tab  
-                           if tab /= novoT
-                           then do novo <- retornaNovoT novoT
-                                   jogo novo
-                           else jogo tab
+                        result tab
             False -> do imprimeTab tab
                         putStrLn "Você perdeu!"       
-            
-
+        
 
 moveElementos :: Tab -> Direcao -> Tab
 moveElementos tab Esq = map concatena tab 
@@ -95,22 +87,34 @@ determinaQuad tab (lin, col) n = inicio ++ [meio] ++ fim
           meio  = take col (tab!!lin) ++ [n] ++ drop (col + 1) (tab!!lin)
           fim = drop (lin + 1) tab
 
-retornaNovoT :: Tab -> IO Tab
-retornaNovoT tab = do e <- newStdGen
-                      let candidatos      = pegaZeros tab
-                          pos             = head (randoms e :: [Int]) `mod` length candidatos
-                          esc             = candidatos!!pos
-                          n               = [2,4,2,2,4,2,2,2,2,4] !! (head (randoms e :: [Int]) `mod` 10)
-                          novoT           = determinaQuad tab esc n
-                      return novoT          
-                   
+result :: Tab -> IO()
+result tab = if verificaVitoria tab
+             then putStrLn "Você venceu!"
+                        else do
+                           novoT <- novoTab tab  
+                           if tab /= novoT
+                           then do novo <- adicionaBloco novoT
+                                   jogo novo
+                           else jogo tab
+
+
+-- Adiciona novo bloco com o valor de 2 ou 4 gerado no final de cada turno em um quadrado vazio escolhido aleatoriamente
+adicionaBloco :: Tab -> IO Tab
+adicionaBloco tab = do entrada <- newStdGen
+                       let tabIni = pegaZeros tab
+                           posicao = head(randoms entrada :: [Int]) `mod` length tabIni
+                           esc  =  tabIni!!posicao
+                           elem = [2,2,2,2,2,2,2,2,4,2] !! (head (randoms entrada :: [Int])  `mod` 10)
+                           novoBloco = determinaQuad tab esc elem
+                       return novoBloco
+                 
 
 pegaZeros :: Tab -> [(Int, Int)]
 pegaZeros tab = filter (\(lin, col) -> (tab!!lin)!!col == 0) coordenadas
     where linha n = zip (replicate 4 n) [0..3]
           coordenadas = concatMap linha [0..3]
 
------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------
 main :: IO ()
 main = do putStrLn "Jogo 2048"
           putStrLn "Use as teclas 'e','d','c','b' para mover os numeros de acordo com a direção indicada"
