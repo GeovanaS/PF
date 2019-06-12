@@ -2,6 +2,8 @@ import System.Console.ANSI
 import Data.Char
 import System.IO
 
+-- > cabal install ansi-terminal
+
 -- Move asterisco atraves dos caracteres: R,D,F,C
 
 
