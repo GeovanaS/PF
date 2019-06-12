@@ -34,5 +34,6 @@ contArvore (No a l) = foldr(+) 1 (map contArvore l)
 maiorArvore :: Arvore Int -> Int
 maiorArvore (No a l) = foldr max a (map maiorArvore l)
 
-
+listaArvore :: Arvore Int -> [Int]
+listaArvore (No a l) = foldr(++) [a] (map listaArvore l)
 
