@@ -49,5 +49,10 @@ foldr1l f (Cons x xs) = f x (foldr1l f xs)
 filterl :: (a -> Bool) -> Lista a -> Lista a
 filterl p Vazio = Vazio
 filterl p (Cons x xs) 
-        | p x   = Cons (p x) (filterl p xs) 
+        | p x = Cons x (filterl p xs) 
         | otherwise = (filterl p xs)
+
+-- inverte :: [a] -> [a]
+-- inverte [] = []
+-- inverte (x:xs) = (inverte xs) ++ [x]
+
