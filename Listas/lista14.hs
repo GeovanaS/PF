@@ -1,6 +1,5 @@
 -- Exercicios sobre Type Classes
 
-
 -- Exercicio 1
 data Lista a = Cons a (Lista a) | Vazio
 
