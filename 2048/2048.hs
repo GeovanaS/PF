@@ -47,7 +47,7 @@ verificaVitoria tab = [] /= filter (==2048) (concat tab)
 
 -- Imprime tabuleiro
 imprimeTab :: Tab -> IO()
-imprimeTab tab = do putStr $ "\ESC 2"
+imprimeTab tab = do putStr $ ""
                     mapM_ (putStrLn . imprimeLinha) tab 
 
 -- Imprime as linhas do tabuleiro
