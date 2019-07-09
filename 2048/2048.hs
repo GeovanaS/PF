@@ -83,7 +83,7 @@ moveElementos tab Baixo = transpose(moveElementos(transpose tab) Dir)
 -- Verifica se existe algum movimento sobrando a ser executado no tabuleiro da partida 
 existeMovimento :: Tab -> Bool
 existeMovimento tab = sum possibilidades > 0 
-    where possibilidades = map (length . pegaZeros . moveElementos tab) [Esq, Dir, Cima, Baixo] 
+    where possibilidades = map (length . getZeros . moveElementos tab) [Esq, Dir, Cima, Baixo] 
 
 -- determina os quadrantes do tabuleiro
 determinaQuad :: Tab -> (Int, Int) -> Int -> Tab
@@ -95,11 +95,10 @@ determinaQuad tab (lin, col) n = inicio ++ [meio] ++ fim
 -- Adiciona novo bloco com o valor de 2 ou 4 gerado no final de cada turno em um quadrado vazio escolhido aleatoriamente
 adicionaBloco :: Tab -> IO Tab
 adicionaBloco tab = do pegaDirecao <- newStdGen
-                       let tabIni = pegaZeros tab
+                       let tabIni = getZeros tab
                            posicao = head(randoms pegaDirecao :: [Int]) `mod` length tabIni
-                           esc  =  tabIni!!posicao
                            elem = [2,2,2,2,2,2,2,2,4,2] !! (head (randoms pegaDirecao :: [Int])  `mod` 10)
-                           novoBloco = determinaQuad tab esc elem
+                           novoBloco = determinaQuad tab (tabIni!!posicao) elem
                        return novoBloco
                  
 -- Anuncia vitoria ou cria novo tabuleiro
@@ -113,15 +112,16 @@ result tab = if verificaVitoria tab
                                    jogo novo
                            else jogo tab
 
--- preenche tabuleiro com zeros
-pegaZeros :: Tab -> [(Int, Int)]
-pegaZeros tab = filter (\(lin, col) -> (tab!!lin)!!col == 0) coordenadas
+-- pega linhas do tabuleiro com zeros
+getZeros :: Tab -> [(Int, Int)]
+getZeros tab = filter (\(lin, col) ->(tab!!lin)!!col == 0) (concatMap linha [0..3])
     where linha n = zip (replicate 4 n) [0..3]
-          coordenadas = concatMap linha [0..3]
+
 
 ------------------------------------------------------------------------------------------------------------------------------
 main :: IO ()
 main = do putStrLn "2048"
           putStrLn "Use as teclas 'e','d','c','b' para mover os numeros de acordo com a direção indicada"
           putStrLn "Combine numeros até obter 2048"
+          putStrLn  "Digite uma direção:"
           jogo tabInicial
