@@ -92,12 +92,12 @@ determinaQuad tab (lin, col) n = inicio ++ [meio] ++ fim
           meio  = take col (tab!!lin) ++ [n] ++ drop (col + 1) (tab!!lin)
           fim = drop (lin + 1) tab
 
--- Adiciona novo bloco com o valor de 2 ou 4 gerado no final de cada turno em um quadrado vazio escolhido aleatoriamente
+-- Adiciona novo bloco com o valor de 2 gerado no final de cada turno em um quadrado vazio escolhido aleatoriamente
 adicionaBloco :: Tab -> IO Tab
 adicionaBloco tab = do pegaDirecao <- newStdGen
                        let tabIni = getZeros tab
                            posicao = head(randoms pegaDirecao :: [Int]) `mod` length tabIni
-                           elem = [2,2,2,2,2,2,2,2,4,2] !! (head (randoms pegaDirecao :: [Int])  `mod` 10)
+                           elem = [2,2,2,2,2,2,2,2,2,2] !! (head (randoms pegaDirecao :: [Int])  `mod` 10)
                            novoBloco = determinaQuad tab (tabIni!!posicao) elem
                        return novoBloco
                  
