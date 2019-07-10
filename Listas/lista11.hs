@@ -50,6 +50,6 @@ listArvore (Folha n) = [n]
 listArvore (Nodo n a1 a2) = [n] ++ (listArvore a1) ++ (listArvore a2)
 
 -- Ex9
--- mapTree :: (a -> b) -> Arvore a -> Arvore b
--- mapTree f (Folha n) = (Folha n)
--- mapTree f (Nodo n a1 a2) = Nodo (f n) (mapTree f a1) (mapTree f a2)
+mapTree :: (a->b) -> Arvore a -> Arvore b
+mapTree f (Folha n) = Folha(f n)
+mapTree f (Nodo n a1 a2) = Nodo(f n)  (mapTree f a1) (mapTree f a2)
